@@ -55,6 +55,10 @@
         <Label fx:id="conditionLabel" text="" styleClass="tile-value"/>
     </VBox>
 
+    <!-- Forecast Tile -->
+    <VBox fx:id="forecastContainer" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.columnSpan="2" alignment="CENTER" spacing="10" styleClass="forecast-container"/>
+
+
 </GridPane>
 
 
