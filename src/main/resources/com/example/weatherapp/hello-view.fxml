@@ -55,9 +55,11 @@
         <Label fx:id="conditionLabel" text="" styleClass="tile-value"/>
     </VBox>
 
-    <!-- Forecast Tile -->
-    <VBox fx:id="forecastContainer" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.columnSpan="2" alignment="CENTER" spacing="10" styleClass="forecast-container"/>
-
+    <!-- Forecast Tile with Title Inside -->
+    <VBox GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2" styleClass="glass-tile" alignment="CENTER" spacing="10">
+        <Label text="5-Day Forecast" styleClass="tile-label"/>
+        <VBox fx:id="forecastContainer" alignment="CENTER" spacing="10" styleClass="forecast-container"/>
+    </VBox>
 
 </GridPane>
 

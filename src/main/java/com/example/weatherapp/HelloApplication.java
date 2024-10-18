@@ -17,6 +17,8 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icon.png"))));
+        stage.setMinWidth(600);
+        stage.setMinHeight(800);
         stage.setTitle("PrettyWeather");
         stage.setScene(scene);
         stage.show();

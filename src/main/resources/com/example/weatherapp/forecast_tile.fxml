@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER_LEFT" spacing="10">
+    <Label fx:id="dayLabel" styleClass="forecast-text" />
+    <ImageView fx:id="weatherIcon" fitWidth="30" fitHeight="30" />
+    <Label fx:id="tempLabel" styleClass="forecast-text" />
+    <Label fx:id="descLabel" styleClass="forecast-text" />
+</HBox>

@@ -3,6 +3,7 @@ package com.example.weatherapp;
 import com.google.gson.JsonArray;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -80,7 +81,6 @@ public class HelloController {
         }
     }
 
-
     /**
      * Fetch weather data from OpenWeatherMap API.
      *
@@ -102,7 +102,6 @@ public class HelloController {
             }
         }
     }
-
 
     /**
      * Update the weather tiles with data from the API response.
@@ -130,7 +129,6 @@ public class HelloController {
         updateWeatherIcon(iconCode);
     }
 
-
     /**
      * Update the weather icon based on the icon code from the API.
      *
@@ -142,7 +140,6 @@ public class HelloController {
         temperatureIcon.setImage(iconImage); // Update ImageView with the weather icon
     }
 
-
     /**
      * Build the API URL for fetching weather data.
      *
@@ -153,9 +150,10 @@ public class HelloController {
         return BASE_URL + "?q=" + city + "&appid=" + API_KEY + "&units=metric";
     }
 
-
     /**
      * Fetch and display the 5-day weather forecast.
+     *
+     * @param city The city name.
      */
     private void fetchAndDisplayForecast(String city) {
         try {
@@ -178,6 +176,10 @@ public class HelloController {
 
     /**
      * Fetch latitude and longitude for a given city using Geocoding API.
+     *
+     * @param city The city name.
+     * @return A double array containing latitude and longitude.
+     * @throws IOException If there is a network issue.
      */
     private double[] getLatLonForCity(String city) throws IOException {
         String geocodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + API_KEY;
@@ -197,6 +199,11 @@ public class HelloController {
 
     /**
      * Fetch 5-day weather forecast using latitude and longitude.
+     *
+     * @param lat The latitude of the city.
+     * @param lon The longitude of the city.
+     * @return A JsonObject representing the forecast data.
+     * @throws IOException If there is a network issue.
      */
     private JsonObject fetchWeatherForecast(double lat, double lon) throws IOException {
         String forecastUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY + "&units=metric";
@@ -213,50 +220,65 @@ public class HelloController {
 
     /**
      * Update forecast tiles in the UI based on forecast data.
+     *
+     * @param forecastData The JsonObject containing forecast data.
      */
     private void updateForecastTiles(JsonObject forecastData) {
-        Platform.runLater(() -> forecastContainer.getChildren().clear()); // Clear previous forecast
+        Platform.runLater(() -> {
+            forecastContainer.getChildren().clear(); // Clear previous forecast
+            JsonArray forecastList = forecastData.getAsJsonArray("list");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE"); // Day of week formatter
 
-        JsonArray forecastList = forecastData.getAsJsonArray("list");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE"); // Day of week formatter
+            // Iterate over the forecast and generate tiles
+            for (int i = 0; i < forecastList.size(); i += 8) { // Select 1 item per day
+                JsonObject forecastEntry = forecastList.get(i).getAsJsonObject();
+                String day = LocalDate.parse(forecastEntry.get("dt_txt").getAsString().substring(0, 10)).format(formatter);
 
-        for (int i = 0; i < forecastList.size(); i += 8) { // Select data for each day
-            JsonObject forecastEntry = forecastList.get(i).getAsJsonObject();
+                JsonObject main = forecastEntry.getAsJsonObject("main");
+                double tempMin = main.get("temp_min").getAsDouble();
+                double tempMax = main.get("temp_max").getAsDouble();
+                String description = forecastEntry.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
+                String iconCode = forecastEntry.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
 
-            // Get the necessary data
-            String day = LocalDate.parse(forecastEntry.get("dt_txt").getAsString().substring(0, 10)).format(formatter);
-            JsonObject main = forecastEntry.getAsJsonObject("main");
-            double tempMin = main.get("temp_min").getAsDouble();
-            double tempMax = main.get("temp_max").getAsDouble();
-            String description = forecastEntry.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
-            String iconCode = forecastEntry.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-
-            // Create the forecast tile
-            Platform.runLater(() -> forecastContainer.getChildren().add(createForecastTile(day, tempMin, tempMax, description, iconCode)));
-        }
+                try {
+                    // Create and update the forecast tile for each day
+                    forecastContainer.getChildren().add(createForecastTile(day, tempMin, tempMax, description, iconCode));
+                } catch (IOException e) {
+                    LOGGER.log(Level.SEVERE, "Error loading forecast tile FXML", e);
+                }
+            }
+        });
     }
 
     /**
-     * Create a forecast tile with the given data.
+     * Create and return a forecast tile for each day.
+     *
+     * @param day The day of the week.
+     * @param tempMin The minimum temperature.
+     * @param tempMax The maximum temperature.
+     * @param description The weather description.
+     * @param iconCode The weather icon code.
+     * @return An HBox representing the forecast tile.
+     * @throws IOException If there is an error loading the FXML.
      */
-    private HBox createForecastTile(String day, double tempMin, double tempMax, String description, String iconCode) {
-        HBox forecastTile = new HBox();
-        forecastTile.setSpacing(10); // Add spacing between elements
+    private HBox createForecastTile(String day, double tempMin, double tempMax, String description, String iconCode) throws IOException {
+        // Load the forecast tile layout from FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("forecast_tile.fxml"));
+        HBox forecastTile = loader.load();
 
-        Label dayLabel = new Label(day);
-        dayLabel.setStyle("-fx-text-fill: white;"); // Set text color to white
+        // Get the components from the loaded FXML
+        Label dayLabel = (Label) forecastTile.lookup("#dayLabel");
+        ImageView weatherIcon = (ImageView) forecastTile.lookup("#weatherIcon");
+        Label tempLabel = (Label) forecastTile.lookup("#tempLabel");
+        Label descLabel = (Label) forecastTile.lookup("#descLabel");
 
-        Label tempLabel = new Label(String.format("%.1f°C / %.1f°C", tempMin, tempMax));
-        tempLabel.setStyle("-fx-text-fill: white;"); // Set text color to white
+        // Update the components with data
+        dayLabel.setText(day);
+        weatherIcon.setImage(new Image(ICON_BASE_URL + iconCode + "@2x.png"));
+        tempLabel.setText(String.format("%.1f°C / %.1f°C", tempMin, tempMax));
+        descLabel.setText(description);
 
-        Label descLabel = new Label(description);
-        descLabel.setStyle("-fx-text-fill: white;"); // Set text color to white
-
-        ImageView weatherIcon = new ImageView(new Image(ICON_BASE_URL + iconCode + "@2x.png"));
-        weatherIcon.setFitWidth(40); // Set icon width
-        weatherIcon.setFitHeight(40); // Set icon height
-
-        forecastTile.getChildren().addAll(dayLabel, weatherIcon, tempLabel, descLabel);
         return forecastTile;
     }
+
 }

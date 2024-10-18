@@ -87,19 +87,14 @@
 /* Forecast tiles */
 .forecast-container .tile {
     -fx-background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
-    -fx-padding: 20;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
     -fx-spacing: 10;
 }
 
 /* Forecast text styling */
-.forecast-container .tile-label, .forecast-container .tile-value {
-    -fx-text-fill: white; /* Set all text in the forecast to white */
-    -fx-font-size: 16px;
-}
-
-/* Forecast temperature and description text */
-.forecast-container label {
-    -fx-text-fill: white; /* Ensure labels in forecast are white */
+.forecast-text {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
 }
