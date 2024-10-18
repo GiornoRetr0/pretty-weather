@@ -3,8 +3,8 @@
 **PrettyWeather** is a modern JavaFX weather application that displays real-time weather data such as temperature, humidity, wind speed, and weather conditions using the **OpenWeather API**.
 
 ## 🚀 Features
-- 🌡️ **Temperature**, 💧 **Humidity**, 💨 **Wind Speed**, and 🌥️ **Weather Conditions** displayed in custom tiles.
-- 🔍 Search for any city to get live weather updates.
+- **Temperature**, **Humidity**, **Wind Speed**, and **Weather Conditions** displayed in custom tiles.
+- Search for any city to get live weather updates.
 
 ## 📸 Screenshot
 
