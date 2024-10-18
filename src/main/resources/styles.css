@@ -1,0 +1,72 @@
+
+/* General GridPane Styling */
+.grid-pane {
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-alignment: center;
+    -fx-padding: 20;
+    -fx-background-color: rgba(38, 38, 38, 1);
+}
+
+/* Glassmorphism for the tiles */
+.glass-tile {
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    -fx-border-color: rgba(255, 255, 255, 0.25); /* Light border */
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 5); /* Drop shadow */
+    -fx-background-insets: 0;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.3), 20, 0, 0, 0);
+}
+
+/* Text inside tiles */
+.tile-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-opacity: 0.8;
+}
+
+.tile-value {
+    -fx-font-size: 28px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-opacity: 1;
+}
+
+/* Button styling */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* TextField styling */
+.text-field {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #AAAAAA;
+    -fx-font-size: 16px;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* Header Label styling */
+.label-large {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial';
+}
+
+/* ImageView inside tiles */
+.image-view {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 5);
+}

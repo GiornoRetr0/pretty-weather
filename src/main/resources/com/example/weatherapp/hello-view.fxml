@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.image.ImageView?>
+<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.weatherapp.HelloController"
+          alignment="CENTER" hgap="20" vgap="20"
+          styleClass="grid-pane">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- City input and Get Weather Button -->
+    <TextField fx:id="cityInput" promptText="Enter city name" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" styleClass="text-field"/>
+    <Button text="Get" onAction="#onGetWeatherButtonClick" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="button"/>
+
+    <!-- Empty space for the tiles to prevent overlap -->
+    <Label text="Weather Data" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2" styleClass="label-large"/>
+
+    <!-- Label for errors or weather data -->
+    <Label fx:id="weatherLabel" text="" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2" styleClass="label-white"/>
+
+    <!-- Temperature Tile with icon on the left -->
+    <HBox GridPane.rowIndex="2" GridPane.columnIndex="0" spacing="10" alignment="CENTER" styleClass="glass-tile">
+        <ImageView fx:id="temperatureIcon" fitWidth="40" fitHeight="40"/>
+        <VBox>
+            <Label text="Temperature" styleClass="tile-label"/>
+            <Label fx:id="temperatureLabel" text="0.0°C" styleClass="tile-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Humidity Tile -->
+    <VBox GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="glass-tile">
+        <Label text="Humidity" styleClass="tile-label"/>
+        <Label fx:id="humidityLabel" text="0%" styleClass="tile-value"/>
+    </VBox>
+
+    <!-- Wind Speed Tile -->
+    <VBox GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="glass-tile">
+        <Label text="Wind Speed" styleClass="tile-label"/>
+        <Label fx:id="windSpeedLabel" text="0.0 m/s" styleClass="tile-value"/>
+    </VBox>
+
+    <!-- Condition Tile -->
+    <VBox GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="glass-tile">
+        <Label text="Condition" styleClass="tile-label"/>
+        <Label fx:id="conditionLabel" text="" styleClass="tile-value"/>
+    </VBox>
+
+</GridPane>
+
+
+
+
