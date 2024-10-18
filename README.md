@@ -8,9 +8,7 @@
 
 ## 📸 Screenshot
 
-> ![PrettyWeather Screenshot](src/main/resources/screenshot.png)
-
----
+ ![PrettyWeather Screenshot](src/main/resources/screenshot.png)
 
 ## 🌐 Prerequisites
 
